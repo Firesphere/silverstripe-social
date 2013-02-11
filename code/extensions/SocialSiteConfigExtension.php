@@ -1,10 +1,6 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
- * Description of SocialSiteConfigExtension
+ * Add the social-features to the SiteConfig. Not really exciting actually.
  *
  * @author Simon 'Sphere' Erkelens
  */
