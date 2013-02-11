@@ -15,7 +15,10 @@ Follow the instructions in your settings to get things working
 * Post to twitter. Example-code, taken from my [`silverstripe-newsmodule`](https://github.com/Firesphere/silverstripe-newsmodule):
 
 ````php
-<?php	
+<?php
+/**
+ * This should be in the onAfterWrite(), for example.
+ */
 $siteConfig = SiteConfig::current_site_config();
 if($this->Live && !$this->Tweeted && $siteConfig->TweetOnPost){
 	if($siteConfig->ConsumerKey && $siteConfig->ConsumerSecret && $siteConfig->OAuthToken && $siteConfig->OAuthTokenSecret){
@@ -29,9 +32,6 @@ if($this->Live && !$this->Tweeted && $siteConfig->TweetOnPost){
 		else{
 			$TweetText = $TweetText.' '.$this->AbsoluteLink();
 		}
-		/**
-			* I don't think I have Twitter Oauth module included here, do I? 
-			*/
 		$conn = new TwitterOAuth(
 			$siteConfig->ConsumerKey,
 			$siteConfig->ConsumerSecret,
