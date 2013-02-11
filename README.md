@@ -13,8 +13,8 @@ Follow the instructions in your settings to get things working
 ## Features
 
 * Post to twitter. Example-code, taken from my [`silverstripe-newsmodule`](https://github.com/Firesphere/silverstripe-newsmodule):
-```php
-<?php
+```PHP
+		$siteConfig = SiteConfig::current_site_config();
 		if($this->Live && !$this->Tweeted && $siteConfig->TweetOnPost){
 			if($siteConfig->ConsumerKey && $siteConfig->ConsumerSecret && $siteConfig->OAuthToken && $siteConfig->OAuthTokenSecret){
 				$TweetText = $siteConfig->TweetText;
