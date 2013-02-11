@@ -66,7 +66,6 @@ If you don't have a github account, just download:
  1. Click on the big "ZIP" button at the top.
  2. Extract the zip to your site-root
  3. Run in your browser - `www.example.com/dev/build` to rebuild the database. 
- 4. Create a NewsHolderPage type in your Pages Admin (todo, autocreate this page)
 
 Other option is to clone the repo into your site-root:
  1.  In your site-root, do `git clone https://github.com/Firesphere/silverstripe-social.git`. 
