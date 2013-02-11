@@ -22,6 +22,8 @@ Follow the instructions in your settings to get things working
  */
 $siteConfig = SiteConfig::current_site_config();
 if($this->Live && !$this->Tweeted && $siteConfig->TweetOnPost){
+	// We are checking every step here. Quite simply, if you don't have this module installed, it won't work, thus, no problem.
+	// Using Abraham Williams's OAuth module, it works. I've updated it to make it fit my coding standard, but nothing changed yet.
 	if($siteConfig->ConsumerKey && $siteConfig->ConsumerSecret && $siteConfig->OAuthToken && $siteConfig->OAuthTokenSecret){
 		$TweetText = $siteConfig->TweetText;
 		$TweetText = str_replace('$Title', $this->Title, $TweetText);
