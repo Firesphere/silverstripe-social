@@ -78,6 +78,12 @@ Although, I would like it if you forked and cloned, because if you do, you can h
 
 Note, forking is NOT REQUIRED, only handy if you want to help out.
 
+After installation, setup your app with the desired social network. For twitter, go here: `https://dev.twitter.com`
+Setting up your application, will give you a consumer key/secret combination. Set this in your siteconfig and you're good to go.
+
+I have explicitly NOT included my own keys in this module, because it's not necessary, create your own is better for you ;)
+Any questions would preferably be asked via the issues-github-method.
+
 ## Configuration
 
 * In the SiteConfig, set your wished configuration in the tabs you want to use.
@@ -89,6 +95,8 @@ If you have Facebook connected to twitter, don't post to facebook and twitter as
 ## Plans
 
 * Integrate Facebook OAuth.
+* Integrate Pinterest.
+* Integrate Google+ (Not gonna happen soon. G+ API is a closed API at the moment)
 * Multi-user support.
 
 ## Requests
