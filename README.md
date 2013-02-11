@@ -13,6 +13,7 @@ Follow the instructions in your settings to get things working
 ## Features
 
 * Post to twitter. Example-code, taken from my [`silverstripe-newsmodule`](https://github.com/Firesphere/silverstripe-newsmodule):
+
 ````php
 <?php	
 $siteConfig = SiteConfig::current_site_config();
