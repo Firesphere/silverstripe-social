@@ -17,7 +17,8 @@ Follow the instructions in your settings to get things working
 ````php
 <?php
 /**
- * This should be in the onAfterWrite(), for example.
+ * This should be in the onAfterWrite(), for example. Taken from my newsmodule. It can be altered to suit your needs.
+ * The Siteconfig extension only covers the basic connection, not the tweeting itself!
  */
 $siteConfig = SiteConfig::current_site_config();
 if($this->Live && !$this->Tweeted && $siteConfig->TweetOnPost){
@@ -96,7 +97,6 @@ If you have Facebook connected to twitter, don't post to facebook and twitter as
 * This module is given "as is" and I am not responsible for any damage it might do to your brain, dog, cat, house, computer or website.
 * Code Comments should not be taken too seriously, since I'm bad at writing serious code-comments.
 * Please use the Issue-tracker, otherwise I get lost too.
-* This is a port of a non-released SS2.4 newsmodule I wrote. It might not be entirely "up to code" yet.
 
 ## Actual license
 

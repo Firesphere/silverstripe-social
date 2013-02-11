@@ -19,17 +19,6 @@ class TwitterController extends Controller {
 		'denied',
 	);
 
-
-	public function init() {
-		parent::init();
-	}
-
-
-	public function index() {
-		return($this);
-	}
-
-
 	/**
 	 * Setup and handle the signin via the TwitterOAuth class.
 	 * User must be logged on, otherwise it shouldn't be allowed to even link this! 
@@ -54,10 +43,6 @@ class TwitterController extends Controller {
 			if (($OAuthToken = $request->getVar('oauth_token')) && ($OAuthVerifier = $request->getVar('oauth_verifier'))) {
 				$conn = new TwitterOAuth($this->ConsumerKey, $this->ConsumerSecret, $OAuthToken, $OAuthVerifier);
 				$tokenCredentials = $conn->getAccessToken($OAuthVerifier);
-				Session::set('TokenCredentials', $tokenCredentials);
-				Session::set('ConsumerKey', $this->ConsumerKey);
-				Session::set('ConsumerSecret', $this->ConsumerSecret);
-
 				$siteconfig->OAuthToken = $tokenCredentials['oauth_token'];
 				$siteconfig->OAuthTokenSecret = $tokenCredentials['oauth_token_secret'];
 				$siteconfig->write();
