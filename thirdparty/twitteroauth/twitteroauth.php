@@ -4,6 +4,9 @@
  *
  * The first PHP Library to support OAuth for Twitter's REST API.
  *
+ * ---
+ * I have updated this to a bit more readable version. No Offence, but the shortcoding and no indentation etc. was bad to read.
+ * Original can be found at: https://github.com/abraham/twitteroauth/tree/master/twitteroauth
  */
 
 /* Load OAuth lib. You can find it at http://oauth.net */
