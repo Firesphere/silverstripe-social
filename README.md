@@ -13,37 +13,38 @@ Follow the instructions in your settings to get things working
 ## Features
 
 * Post to twitter. Example-code, taken from my [`silverstripe-newsmodule`](https://github.com/Firesphere/silverstripe-newsmodule):
-````PHP
-		$siteConfig = SiteConfig::current_site_config();
-		if($this->Live && !$this->Tweeted && $siteConfig->TweetOnPost){
-			if($siteConfig->ConsumerKey && $siteConfig->ConsumerSecret && $siteConfig->OAuthToken && $siteConfig->OAuthTokenSecret){
-				$TweetText = $siteConfig->TweetText;
-				$TweetText = str_replace('$Title', $this->Title, $TweetText);
-				// Max length is 120 characters, since the URL will be 20 characters long with t.co, 
-				// so, let's make that happen.
-				if(strlen($TweetText) > 120){
-					$TweetText = substr($TweetText, 0, 116).'... '.$this->AbsoluteLink();
-				}
-				else{
-					$TweetText = $TweetText.' '.$this->AbsoluteLink();
-				}
-				/**
-				 * I don't think I have Twitter Oauth module included here, do I? 
-				 */
-				$conn = new TwitterOAuth(
-					$siteConfig->ConsumerKey,
-					$siteConfig->ConsumerSecret,
-					$siteConfig->OAuthToken,
-					$siteConfig->OAuthTokenSecret
-				);
-				$tweetData = array(
-					'status' => $TweetText,
-				);
-				$postResult = $conn->post('statuses/update', $tweetData);
-				$this->Tweeted = true;
-				$this->write();
-			}
+````php
+<?php	
+$siteConfig = SiteConfig::current_site_config();
+if($this->Live && !$this->Tweeted && $siteConfig->TweetOnPost){
+	if($siteConfig->ConsumerKey && $siteConfig->ConsumerSecret && $siteConfig->OAuthToken && $siteConfig->OAuthTokenSecret){
+		$TweetText = $siteConfig->TweetText;
+		$TweetText = str_replace('$Title', $this->Title, $TweetText);
+		// Max length is 120 characters, since the URL will be 20 characters long with t.co, 
+		// so, let's make that happen.
+		if(strlen($TweetText) > 120){
+			$TweetText = substr($TweetText, 0, 116).'... '.$this->AbsoluteLink();
 		}
+		else{
+			$TweetText = $TweetText.' '.$this->AbsoluteLink();
+		}
+		/**
+			* I don't think I have Twitter Oauth module included here, do I? 
+			*/
+		$conn = new TwitterOAuth(
+			$siteConfig->ConsumerKey,
+			$siteConfig->ConsumerSecret,
+			$siteConfig->OAuthToken,
+			$siteConfig->OAuthTokenSecret
+		);
+		$tweetData = array(
+			'status' => $TweetText,
+		);
+		$postResult = $conn->post('statuses/update', $tweetData);
+		$this->Tweeted = true;
+		$this->write();
+	}
+}
 ````
 
 ## Lacks
