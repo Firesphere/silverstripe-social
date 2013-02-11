@@ -35,6 +35,9 @@ if($this->Live && !$this->Tweeted && $siteConfig->TweetOnPost){
 		else{
 			$TweetText = $TweetText.' '.$this->AbsoluteLink();
 		}
+		// Connect and tweet. Then write the Tweeted-status. Note, the "Tweeted" status, is quite important.
+		// If you're using this module, include a "Tweeted" status-flag in your $db! Otherwise, it'll tweet every change.
+		// I might need to have a look at this, but I think it's the best way this way.
 		$conn = new TwitterOAuth(
 			$siteConfig->ConsumerKey,
 			$siteConfig->ConsumerSecret,
