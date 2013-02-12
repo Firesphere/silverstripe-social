@@ -92,6 +92,13 @@ Any questions would preferably be asked via the issues-github-method.
 
 If you have Facebook connected to twitter, don't post to facebook and twitter as well! Twitter will reject your message because it's a duplicate!
 
+
+## Notes
+
+* Your "login with twitter" button looks fugly!
+
+Yes, I know. I'm sorry.
+
 ## Plans
 
 * Integrate Facebook OAuth.
