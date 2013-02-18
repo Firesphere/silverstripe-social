@@ -23,6 +23,8 @@ Follow the instructions in your settings to get things working
 		 * This is related to another module of mine.
 		 * Check it at my repos: Silverstripe-Social.
 		 * It auto-tweets your new Newsitem. If the TwitterController exists ofcourse.
+		 * You can do a lot of different configs here, but I strongly suggest to include the "Tweeted" boolean in your $db declaration.
+		 * Otherwise, you might tweet everytime you change something, which can get quite annoying ;)
 		 */
 		if($this->Live && !$this->Tweeted && $siteConfig->TweetOnPost){
 			if(class_exists('TwitterController')){
