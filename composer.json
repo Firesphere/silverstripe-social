@@ -1,0 +1,22 @@
+{
+	"name": "Firesphere/silverstripe-social",
+	"description": "Simple Silverstripe CMS wrapper to post to Twitter",
+	"type": "silverstripe-module",
+	"keywords": ["silverstripe", "twitter"],
+	"authors": [
+	{
+		"name": "Simon 'Sphere' Erkelens",
+		"email": "simon@casa-laguna.net"
+	}
+	],
+	"support": {
+		"issues": "https://github.com/Firesphere/silverstripe-social/issues"
+	},
+	"require": {
+		"silverstripe/framework": "3.*",
+		"composer/installers": "*"
+	},
+	"extra": {
+		"installer-name": "silverstripe-social"
+	}
+}
