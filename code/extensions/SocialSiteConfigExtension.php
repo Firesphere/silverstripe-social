@@ -31,10 +31,10 @@ class SocialSiteConfigExtension extends DataExtension {
 	 */
 	public function updateCMSFields(FieldList $fields){
 		if($this->owner->OAuthToken != ''){
-			$setField = LiteralField::create('', _t($this->class . '.VERIFIED'), '<h5>Already verified with Twitter</h5><br />');
+			$setField = LiteralField::create('dummy', _t($this->class . '.VERIFIED', '<h5>Already verified with Twitter</h5><br />'));
 		}
 		else{
-			$setField = LiteralField::create('', '
+			$setField = LiteralField::create('dummy', '
 				<div onclick="javascript:window.location.href =\'TwitterController/signin/\'" class="ss-ui-action-constructive ss-ui-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" id="" data-icon="accept" role="button" aria-disabled="false"><span class="ui-button-icon-primary ui-icon btn-icon-accept"></span><span class="ui-button-text">
 		'._t($this->class . '.VERIFY', 'Verify with Twitter').'</span></div><br />');
 		}
