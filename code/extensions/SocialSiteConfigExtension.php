@@ -31,7 +31,7 @@ class SocialSiteConfigExtension extends DataExtension {
 	 */
 	public function updateCMSFields(FieldList $fields){
 		if($this->owner->OAuthToken != ''){
-			$setField = LiteralField::create('', '', _t($this->class . '.VERIFIED'), '<h5>Already verified with Twitter</h5><br />');
+			$setField = LiteralField::create('', _t($this->class . '.VERIFIED'), '<h5>Already verified with Twitter</h5><br />');
 		}
 		else{
 			$setField = LiteralField::create('', '
