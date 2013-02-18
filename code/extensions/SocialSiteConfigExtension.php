@@ -11,11 +11,15 @@ class SocialSiteConfigExtension extends DataExtension {
 	 * @var type 
 	 */
 	public static $db = array(
+		'TwitterAccount' => 'Varchar(255)',
 		'ConsumerKey' => 'Varchar(255)',
 		'ConsumerSecret' => 'Varchar(255)',
 		'OAuthToken' => 'Varchar(255)',
 		'OAuthTokenSecret' => 'Varchar(255)',
 		'TweetText' => 'Varchar(100)',
+		'FBAppID' => 'Varchar(255)',
+		'FBSecret' => 'Varchar(255)',
+		'FBPageID' => 'Varchar(255)'
 	);
 
 
@@ -39,7 +43,8 @@ class SocialSiteConfigExtension extends DataExtension {
 			Tab::create(
 				'TwitterConnect',
 				_t($this->class . '.TWITTERTAB', 'Twitter connect'),
-				$setField
+				$setField,
+				TextField::create('TwitterAccount', _t($this->class . '.TACCOUNT', 'Twitter account'))
 			)
 		);
 		// Only admins can add a consumer key/secret combo. For security reasons ofcourse.
