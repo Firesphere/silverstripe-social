@@ -16,42 +16,23 @@ Follow the instructions in your settings to get things working
 
 ````php
 <?php
-/**
- * This should be in the onAfterWrite(), for example. Taken from my newsmodule. It can be altered to suit your needs.
- * The Siteconfig extension only covers the basic connection, not the tweeting itself!
- */
-$siteConfig = SiteConfig::current_site_config();
-if($this->Live && !$this->Tweeted && $siteConfig->TweetOnPost){
-	// We are checking every step here. Quite simply, if you don't have this module installed, it won't work, thus, no problem.
-	// Using Abraham Williams's OAuth module, it works. I've updated it to make it fit my coding standard, but nothing changed yet.
-	if($siteConfig->ConsumerKey && $siteConfig->ConsumerSecret && $siteConfig->OAuthToken && $siteConfig->OAuthTokenSecret){
-		$TweetText = $siteConfig->TweetText;
-		$TweetText = str_replace('$Title', $this->Title, $TweetText);
-		// Max length is 120 characters, since the URL will be 20 characters long with t.co, 
-		// so, let's make that happen.
-		if(strlen($TweetText) > 120){
-			$TweetText = substr($TweetText, 0, 116).'... '.$this->AbsoluteLink();
+	public function onAfterWrite(){
+		parent::onAfterWrite();
+		$siteConfig = SiteConfig::current_site_config();
+		/**
+		 * This is related to another module of mine.
+		 * Check it at my repos: Silverstripe-Social.
+		 * It auto-tweets your new Newsitem. If the TwitterController exists ofcourse.
+		 */
+		if($this->Live && !$this->Tweeted && $siteConfig->TweetOnPost){
+			if(class_exists('TwitterController')){
+				TwitterController::postTweet($this->Title, $this->AbsoluteLink());
+				$this->Tweeted = true;
+				$this->write();
+			}
 		}
-		else{
-			$TweetText = $TweetText.' '.$this->AbsoluteLink();
-		}
-		// Connect and tweet. Then write the Tweeted-status. Note, the "Tweeted" status, is quite important.
-		// If you're using this module, include a "Tweeted" status-flag in your $db! Otherwise, it'll tweet every change.
-		// I might need to have a look at this, but I think it's the best way this way.
-		$conn = new TwitterOAuth(
-			$siteConfig->ConsumerKey,
-			$siteConfig->ConsumerSecret,
-			$siteConfig->OAuthToken,
-			$siteConfig->OAuthTokenSecret
-		);
-		$tweetData = array(
-			'status' => $TweetText,
-		);
-		$postResult = $conn->post('statuses/update', $tweetData);
-		$this->Tweeted = true;
-		$this->write();
 	}
-}
+
 ````
 
 ## Lacks

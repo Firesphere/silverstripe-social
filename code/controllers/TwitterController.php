@@ -65,5 +65,42 @@ class TwitterController extends Controller {
 	public function denied() {
 		return($this);
 	}
+	
+	/**
+	 * Static function to post to twitter. Requires a title and a link.
+	 * And ofcourse. Correct setup siteconfig.
+	 * @param type $title string string of the title.
+	 * @param type $link string with absolute link.
+	 */
+	public static function postTweet($title, $link){
+		$siteConfig = SiteConfig::current_site_config();
+		if($siteConfig->ConsumerKey && $siteConfig->ConsumerSecret && $siteConfig->OAuthToken && $siteConfig->OAuthTokenSecret){
+			$TweetText = $siteConfig->TweetText;
+			if($TweetText == ''){
+				$TweetText = $title;
+			}
+			else{
+				$TweetText = str_replace('$Title', $title, $TweetText);
+			}
+			// Max length is 120 characters, since the URL will be 20 characters long with t.co, 
+			// so, let's make that happen.
+			if(strlen($TweetText) > 120){
+				$TweetText = substr($TweetText, 0, 116).'... '.$link;
+			}
+			else{
+				$TweetText = $TweetText.' '.$link;
+			}
+			$conn = new TwitterOAuth(
+				$siteConfig->ConsumerKey,
+				$siteConfig->ConsumerSecret,
+				$siteConfig->OAuthToken,
+				$siteConfig->OAuthTokenSecret
+			);
+			$tweetData = array(
+				'status' => $TweetText,
+			);
+			$postResult = $conn->post('statuses/update', $tweetData);
+		}
+	}
 
 }
