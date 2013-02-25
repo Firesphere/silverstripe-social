@@ -14,7 +14,7 @@ class FacebookController extends Controller {
 			$state = Session::get('state');
 			if(!$state){
 				$state = md5(mt_rand());
-				Session::set('state');
+				Session::set('state', $state);
 			}
 			$config = array(
 				'appId' => $SiteConfig->FBAppID,
@@ -46,20 +46,22 @@ class FacebookController extends Controller {
 			$SiteConfig = SiteConfig::current_site_config();
 			$request = $this->getRequest()->requestVars();
 			$state = Session::get('state');
-			$facebook = new Facebook(
-				array(
-					'appId' => $SiteConfig->FBAppID,
-					'secret' => $SiteConfig->FBSecret,
-					'code' => $request['code'],
-				)
-			);
-			$facebook->setAccessToken($facebook->getAccessToken());
-			if($facebook->getUser() && $facebook->getAccessToken()){		
-				$SiteConfig->FBVerified = $facebook->getAccessToken();
+			if($_GET['state'] == $state){
+				$facebook = new Facebook(
+					array(
+						'appId' => $SiteConfig->FBAppID,
+						'secret' => $SiteConfig->FBSecret,
+						'code' => $request['code'],
+					)
+				);
+				$facebook->setAccessToken($facebook->getAccessToken());
+				if($facebook->getUser() && $facebook->getAccessToken()){		
+					$SiteConfig->FBVerified = $facebook->getAccessToken();
+				}
+				$SiteConfig->write();
+				echo 'success';
+				sleep(10);
 			}
-			$SiteConfig->write();
-			echo 'success';
-			sleep(10);
 			$this->redirect('/admin/settings');
 		}
 	}
