@@ -36,6 +36,15 @@ Follow the instructions in your settings to get things working
 	}
 
 ````
+For Facebook, I used this test-function in page.php and called it via mydomain.com/home/testFacebook
+````php
+<?php
+	public function testFacebook(){
+		FacebookController::postFacebook('New Message, hooray!');
+	}
+````
+
+Please help me test!
 
 ## Lacks
 
