@@ -33,6 +33,8 @@ class FacebookController extends Controller {
 				$this->redirect($login_url);
 			}
 			else{
+				echo 'success';
+				sleep(10);
 				$this->redirect('/admin/settings');
 			}
 		}
@@ -56,7 +58,8 @@ class FacebookController extends Controller {
 				$SiteConfig->FBVerified = $facebook->getAccessToken();
 			}
 			$SiteConfig->write();
-
+			echo 'success';
+			sleep(10);
 			$this->redirect('/admin/settings');
 		}
 	}
