@@ -3,6 +3,7 @@
  * Add the social-features to the SiteConfig. Not really exciting actually.
  *
  * @author Simon 'Sphere' Erkelens
+ * @todo cleanup and translatables
  */
 class SocialSiteConfigExtension extends DataExtension {
 	
@@ -30,8 +31,11 @@ class SocialSiteConfigExtension extends DataExtension {
 	 * @param FieldList $fields 
 	 */
 	public function updateCMSFields(FieldList $fields){
+		/**
+		 * Twitter connection (at least this one works!)
+		 */
 		if($this->owner->OAuthToken != ''){
-			$setField = LiteralField::create('dummy', _t($this->class . '.VERIFIED', '<h5>Already verified with Twitter</h5><br />'));
+			$setField = LiteralField::create('dummy', _t($this->class . '.VERIFIED', '<h5>'._t($this->class . '.DONE', 'Already verified with Twitter').'</h5><br />'));
 		}
 		else{
 			$setField = LiteralField::create('dummy', '
@@ -58,6 +62,43 @@ class SocialSiteConfigExtension extends DataExtension {
 			);
 		}
 		$fields->addFieldToTab('Root.TwitterConnect', TextField::create('TweetText', _t($this->class . '.TWEETTEXT', 'Text to tweet. $Title will be replaced by the actual page/object title.')));
+		
+		/**
+		 * Facebook connection.
+		 */
+		if($this->owner->FBVerified){
+			$setField = LiteralField::create('dummy', _t($this->class . '.VERIFIED', '<h5>Already verified with Facebook</h5><br />'));
+			$setField2 = LiteralField::create('dummy2', '
+				<div onclick="javascript:window.location.href =\'FacebookController/postFacebook/\'" class="ss-ui-action-constructive ss-ui-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" id="" data-icon="accept" role="button" aria-disabled="false"><span class="ui-button-icon-primary ui-icon btn-icon-accept"></span><span class="ui-button-text">
+		'._t($this->class . '.VERIFYFB', 'Send a test-post').'</span></div><br />');
+		}
+		else{
+			$setField = LiteralField::create('dummy', '
+				<div onclick="javascript:window.location.href =\'FacebookController/signin/\'" class="ss-ui-action-constructive ss-ui-button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-primary" id="" data-icon="accept" role="button" aria-disabled="false"><span class="ui-button-icon-primary ui-icon btn-icon-accept"></span><span class="ui-button-text">
+		'._t($this->class . '.VERIFYFB', 'Verify with Facebook').'</span></div><br />');
+			$setField2 = LiteralField::create('dummy2', _t($this->class . '.VERIFYFIRST', 'You need to verify before you can test!'));
+		}
+		$fields->addFieldToTab(
+			'Root',
+			Tab::create(
+				'FacebookConnect',
+				_t($this->class . '.FBTab', 'Facebook connect'),
+				$setField,
+				$setField2,
+				TextField::create('FBPageID', 'Facebook Page ID')
+			)
+		);
+		// Only admins can add a consumer key/secret combo. For security reasons ofcourse.
+		if(Member::currentUser()->inGroup('administrators')){
+			$fields->addFieldsToTab(
+				'Root.FacebookConnect',
+				array(
+					TextField::create('FBAppID', 'Facebook App ID'),
+					TextField::create('FBSecret', 'Facebook secret'),
+				)
+			);
+		}
+		$fields->addFieldToTab('Root.FacebookConnect', TextField::create('FBText', _t($this->class . '.FBTEXT', 'Text to post to Facebook. $Title will be replaced by the actual page/object title.')));
 
 	}
 }
