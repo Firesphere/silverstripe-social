@@ -73,6 +73,15 @@ Note, forking is NOT REQUIRED, only handy if you want to help out.
 After installation, setup your app with the desired social network. For twitter, go here: `https://dev.twitter.com`
 Setting up your application, will give you a consumer key/secret combination. Set this in your siteconfig and you're good to go.
 
+For Facebook, it requires a few extra steps, sadly.
+Here goes:
+* Create a new app at `https://developers.facebook.com`
+* Copy the AppID, Secret and API-key to the corresponding fields in the CMS
+* Make sure you are admin of the corresponding page you want to publish to.
+* Get the page-ID. This one is tricky, google it, because I don't have much space.
+* Sign in and see what happens.
+
+
 I have explicitly NOT included my own keys in this module, because it's not necessary, create your own is better for you ;)
 Any questions would preferably be asked via the issues-github-method.
 
