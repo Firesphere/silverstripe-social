@@ -44,24 +44,28 @@ class SocialSiteConfigExtension extends DataExtension {
 		}
 		$fields->addFieldToTab(
 			'Root',
-			Tab::create(
-				'TwitterConnect',
-				_t($this->class . '.TWITTERTAB', 'Twitter connect'),
-				$setField,
-				TextField::create('TwitterAccount', _t($this->class . '.TACCOUNT', 'Twitter account'))
+			TabSet::create(
+				'SocialMedia',
+				_t($this->class . '.SOCIALMEDIA', 'Social media'),
+				Tab::create(
+					'TwitterConnect',
+					_t($this->class . '.TWITTERTAB', 'Twitter connect'),
+					$setField,
+					TextField::create('TwitterAccount', _t($this->class . '.TACCOUNT', 'Twitter account'))
+				)
 			)
 		);
 		// Only admins can add a consumer key/secret combo. For security reasons ofcourse.
 		if(Member::currentUser()->inGroup('administrators')){
 			$fields->addFieldsToTab(
-				'Root.TwitterConnect',
+				'Root.SocialMedia.TwitterConnect',
 				array(
 					TextField::create('ConsumerKey'),
 					TextField::create('ConsumerSecret')
 				)
 			);
 		}
-		$fields->addFieldToTab('Root.TwitterConnect', TextField::create('TweetText', _t($this->class . '.TWEETTEXT', 'Text to tweet. $Title will be replaced by the actual page/object title.')));
+		$fields->addFieldToTab('Root.SocialMedia.TwitterConnect', TextField::create('TweetText', _t($this->class . '.TWEETTEXT', 'Text to tweet. $Title will be replaced by the actual page/object title.')));
 		
 		/**
 		 * Facebook connection.
@@ -79,7 +83,7 @@ class SocialSiteConfigExtension extends DataExtension {
 			$setField2 = LiteralField::create('dummy2', _t($this->class . '.VERIFYFIRST', 'You need to verify before you can test!'));
 		}
 		$fields->addFieldToTab(
-			'Root',
+			'Root.SocialMedia',
 			Tab::create(
 				'FacebookConnect',
 				_t($this->class . '.FBTab', 'Facebook connect'),
@@ -91,14 +95,14 @@ class SocialSiteConfigExtension extends DataExtension {
 		// Only admins can add a consumer key/secret combo. For security reasons ofcourse.
 		if(Member::currentUser()->inGroup('administrators')){
 			$fields->addFieldsToTab(
-				'Root.FacebookConnect',
+				'Root.SocialMedia.FacebookConnect',
 				array(
 					TextField::create('FBAppID', 'Facebook App ID'),
 					TextField::create('FBSecret', 'Facebook secret'),
 				)
 			);
 		}
-		$fields->addFieldToTab('Root.FacebookConnect', TextField::create('FBText', _t($this->class . '.FBTEXT', 'Text to post to Facebook. $Title will be replaced by the actual page/object title.')));
+		$fields->addFieldToTab('Root.SocialMedia.FacebookConnect', TextField::create('FBText', _t($this->class . '.FBTEXT', 'Text to post to Facebook. $Title will be replaced by the actual page/object title.')));
 
 	}
 }
