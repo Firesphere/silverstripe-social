@@ -1,5 +1,5 @@
 {
-	"name": "Firesphere/silverstripe-social",
+	"name": "firesphere/social",
 	"description": "Simple Silverstripe CMS wrapper to post to Twitter",
 	"type": "silverstripe-module",
 	"keywords": ["silverstripe", "twitter"],
