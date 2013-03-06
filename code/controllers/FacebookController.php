@@ -3,6 +3,8 @@
  * I don't know, the SDK is not making much sense...
  *
  * @author Simon 'Sphere' Erkelens
+ * @todo clean up this mess. It's not really making sense.
+ * @todo implement better method to post.
  */
 class FacebookController extends Controller {
 
@@ -66,6 +68,9 @@ class FacebookController extends Controller {
 		}
 	}
 	
+	/**
+	 * @todo fix this BIG mess.
+	 */
 	public static function postFacebook($message, $link = null){
 		$member = Member::currentUser();
 		if($member){
