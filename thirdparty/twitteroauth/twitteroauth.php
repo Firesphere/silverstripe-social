@@ -21,7 +21,7 @@ class TwitterOAuth {
 	
 	public $url;
 	
-	public $host = "https://api.twitter.com/1/";
+	public $host = "https://api.twitter.com/1.1/";
 
 	public $timeout = 30;
 

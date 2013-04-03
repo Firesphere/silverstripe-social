@@ -39,8 +39,9 @@ class TwitterController extends Controller {
 	 */
 	public function callback($request) {
 		$siteconfig = SiteConfig::current_site_config();
+		$request = $this->getRequest();
 		if(Member::currentUser() && !$siteconfig->OAuthToken){
-			if (($OAuthToken = $request->getVar('oauth_token')) && ($OAuthVerifier = $request->getVar('oauth_verifier'))) {
+			if (($OAuthToken = $request['oauth_token']) && ($OAuthVerifier = $request['oauth_verifier'])) {
 				$conn = new TwitterOAuth($this->ConsumerKey, $this->ConsumerSecret, $OAuthToken, $OAuthVerifier);
 				$tokenCredentials = $conn->getAccessToken($OAuthVerifier);
 				$siteconfig->OAuthToken = $tokenCredentials['oauth_token'];
