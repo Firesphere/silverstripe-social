@@ -8,7 +8,7 @@ Follow the instructions in your settings to get things working
 
 ## Maintainer Contacts
 
-* Simon "Sphere" Erkelens `simon[at]casa-laguna[dot]net`
+* Simon "Sphere" Erkelens `github[at]casa-laguna[dot]net`
 
 ## Features
 
