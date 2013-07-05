@@ -5,31 +5,32 @@
  * @author Simon 'Sphere' Erkelens
  * @todo clean up this mess. It's not really making sense.
  * @todo implement better method to post.
+ * @todo make this thing work. It's completely broken.
  */
 class FacebookController extends Controller {
 
+	private static $allowed_actions = array(
+		'signin',
+		'callback',
+		'postFacebook',
+	);
 
 	public function signin(){
 		$member = Member::currentUser();
 		if($member){
 			$SiteConfig = SiteConfig::current_site_config();
-			$state = Session::get('state');
-			if(!$state){
-				$state = md5(mt_rand());
-				Session::set('state', $state);
-			}
 			$config = array(
 				'appId' => $SiteConfig->FBAppID,
 				'secret' => $SiteConfig->FBSecret,
 			);
 			$facebook = new Facebook($config);
+			Debug::dump($facebook->getUser());exit;
 			if(!$facebook->getUser()){
 				$login_url_params = array(
-					'scope' => 'publish_stream,read_stream,offline_access,manage_pages',         
+					'scope' => 'publish_stream,manage_pages',         
 					'fbconnect' =>  1,         
 					'display'   =>  "page",         
 					'next' => Director::absoluteBaseURL().'FacebookController/postFacebook',
-					'state' => $state,
 				);
 				$login_url = $facebook->getLoginUrl($login_url_params);
 				$this->redirect($login_url);
@@ -43,27 +44,25 @@ class FacebookController extends Controller {
 	}
 	
 	public function callback(){
+		exit;
 		$member = Member::currentUser();
 		if($member){
 			$SiteConfig = SiteConfig::current_site_config();
 			$request = $this->getRequest()->requestVars();
-			$state = Session::get('state');
-			if($_GET['state'] == $state){
-				$facebook = new Facebook(
-					array(
-						'appId' => $SiteConfig->FBAppID,
-						'secret' => $SiteConfig->FBSecret,
-						'code' => $request['code'],
-					)
-				);
-				$facebook->setAccessToken($facebook->getAccessToken());
-				if($facebook->getUser() && $facebook->getAccessToken()){		
-					$SiteConfig->FBVerified = $facebook->getAccessToken();
-				}
-				$SiteConfig->write();
-				echo 'success';
-				sleep(10);
+			$facebook = new Facebook(
+				array(
+					'appId' => $SiteConfig->FBAppID,
+					'secret' => $SiteConfig->FBSecret,
+					'code' => $request['code'],
+				)
+			);
+			$facebook->setAccessToken($facebook->getAccessToken());
+			if($facebook->getUser() && $facebook->getAccessToken()){		
+				$SiteConfig->FBVerified = $facebook->getAccessToken();
 			}
+			$SiteConfig->write();
+			echo 'success';
+			sleep(10);
 			$this->redirect('/admin/settings');
 		}
 	}
@@ -100,6 +99,7 @@ class FacebookController extends Controller {
 					header('Location: '.$login_url);
 				}
 			}
+			Debug::dump(json_decode(file_get_contents('https://graph.facebook.com/'.$SiteConfig->FBPageID.'?fields=access_token')));exit;
 			$pages = json_decode(file_get_contents('https://graph.facebook.com/me/accounts?access_token='.$facebook->getAccessToken()),1);
 			foreach($pages['data'] as $userpage){
 				if($userpage['id'] == $SiteConfig->FBPageID){

@@ -20,7 +20,8 @@ class SocialSiteConfigExtension extends DataExtension {
 		'TweetText' => 'Varchar(100)',
 		'FBAppID' => 'Varchar(255)',
 		'FBSecret' => 'Varchar(255)',
-		'FBPageID' => 'Varchar(255)'
+		'FBPageID' => 'Varchar(255)',
+		'FBText' => 'Text',
 	);
 
 
