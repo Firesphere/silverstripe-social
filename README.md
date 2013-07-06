@@ -88,6 +88,10 @@ Here goes:
 I have explicitly NOT included my own keys in this module, because it's not necessary, create your own is better for you ;)
 Any questions would preferably be asked via the issues-github-method.
 
+**Please, please, please, do not forget to include a boolean in your page/model which checks if the specific model/page has already been posted to facebook.**
+If you forget, you'll end up in an infinite loop and a LOT of deleting useless links from facebook!
+Working example can be found in my newsmodule git repo.
+
 ## Configuration
 
 * In the SiteConfig, set your wished configuration in the tabs you want to use.
