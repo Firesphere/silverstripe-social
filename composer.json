@@ -1,6 +1,6 @@
 {
 	"name": "firesphere/social",
-	"description": "Simple Silverstripe CMS wrapper to post to Twitter",
+	"description": "Simple Silverstripe CMS wrapper to post to Twitter and Facebook Page Wall as Page",
 	"type": "silverstripe-module",
 	"keywords": ["silverstripe", "twitter"],
 	"authors": [

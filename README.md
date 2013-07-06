@@ -49,8 +49,11 @@ Please help me test!
 ## Lacks
 
 * Support for all users instead of just one account
-* Facebook
 * And a lot more
+
+## Requirements
+
+User posting needs to be logged in to Facebook at the moment the module tries to post.
 
 ## Installation
 

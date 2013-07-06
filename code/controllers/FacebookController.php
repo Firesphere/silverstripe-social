@@ -17,20 +17,19 @@ class FacebookController extends Controller {
 
 	public function signin(){
 		$member = Member::currentUser();
+		$SiteConfig = SiteConfig::current_site_config();
 		if($member){
-			$SiteConfig = SiteConfig::current_site_config();
 			$config = array(
 				'appId' => $SiteConfig->FBAppID,
 				'secret' => $SiteConfig->FBSecret,
 			);
 			$facebook = new Facebook($config);
-			Debug::dump($facebook->getUser());exit;
+			
 			if(!$facebook->getUser()){
 				$login_url_params = array(
-					'scope' => 'publish_stream,manage_pages',         
+					'scope' => 'publish_stream,read_stream,offline_access,manage_pages',         
 					'fbconnect' =>  1,         
-					'display'   =>  "page",         
-					'next' => Director::absoluteBaseURL().'FacebookController/postFacebook',
+					'next' => Director::absoluteBaseURL().'FacebookController/callback',
 				);
 				$login_url = $facebook->getLoginUrl($login_url_params);
 				$this->redirect($login_url);
@@ -44,7 +43,6 @@ class FacebookController extends Controller {
 	}
 	
 	public function callback(){
-		exit;
 		$member = Member::currentUser();
 		if($member){
 			$SiteConfig = SiteConfig::current_site_config();
@@ -61,8 +59,6 @@ class FacebookController extends Controller {
 				$SiteConfig->FBVerified = $facebook->getAccessToken();
 			}
 			$SiteConfig->write();
-			echo 'success';
-			sleep(10);
 			$this->redirect('/admin/settings');
 		}
 	}
@@ -70,14 +66,14 @@ class FacebookController extends Controller {
 	/**
 	 * @todo fix this BIG mess.
 	 */
-	public static function postFacebook($message, $link = null){
+	public static function postFacebook($message, $link = null, $impression = null){
 		$member = Member::currentUser();
-		if($member){
-
+		$postresult = false;
+		$SiteConfig = SiteConfig::current_site_config();
+		if($member && $SiteConfig->FBAppID && $SiteConfig->FBSecret){
 			if($link == null){
 				$link = Director::absoluteBaseURL();
 			}
-			$SiteConfig = SiteConfig::current_site_config();
 			$page = '/'.$SiteConfig->FBPageID.'/feed';
 			$facebook = new Facebook(
 				array(
@@ -85,38 +81,24 @@ class FacebookController extends Controller {
 					'secret' => $SiteConfig->FBSecret,
 				)
 			);
-			$permissions_list = $facebook->api('/me/permissions');
-			$permissions_needed = array('publish_stream', 'read_stream', 'manage_pages');
-			foreach($permissions_needed as $perm){  
-				if( !isset($permissions_list['data'][0][$perm]) || $permissions_list['data'][0][$perm] != 1 ){
-					$login_url_params = array(
-						'scope' => 'publish_stream,read_stream,offline_access,manage_pages',         
-						'fbconnect' =>  1,         
-						'display'   =>  "page",         
-						'next' => Director::absoluteBaseURL().'FacebookController/postFacebook',
-					);
-					$login_url = $facebook->getLoginUrl($login_url_params);
-					header('Location: '.$login_url);
-				}
-			}
-			Debug::dump(json_decode(file_get_contents('https://graph.facebook.com/'.$SiteConfig->FBPageID.'?fields=access_token')));exit;
-			$pages = json_decode(file_get_contents('https://graph.facebook.com/me/accounts?access_token='.$facebook->getAccessToken()),1);
-			foreach($pages['data'] as $userpage){
-				if($userpage['id'] == $SiteConfig->FBPageID){
+			$token = $facebook->api('/me/accounts');
+			foreach($token['data'] as $pages){
+				if($pages['id'] == $SiteConfig->FBPageID){
+					$facebook->setAccessToken($pages['access_token']);
+					$verified = true;
 					break;
 				}
 			}
-			$facebook->setAccessToken($userpage['access_token']);
-			if($message == ''){
-				$message = "This is a test-post for the Facebook API";
+			if($verified){
+				$data = array(
+					'message' => $message,
+					'link' => $link,
+					'picture' => $impression
+				);
+				$postresult = $facebook->api($page, 'post', $data);
 			}
-			$data = array(
-				'message' => $message,
-				'link' => $link,
-				'access_token' => $userpage['access_token']	
-			);
-			$postresult = $facebook->api($page, 'post', $data);
 		}
+		return $postresult;
 	}
 
 }

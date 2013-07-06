@@ -75,6 +75,7 @@ class TwitterController extends Controller {
 	 */
 	public static function postTweet($title, $link){
 		$siteConfig = SiteConfig::current_site_config();
+		$postresult = false;
 		if($siteConfig->ConsumerKey && $siteConfig->ConsumerSecret && $siteConfig->OAuthToken && $siteConfig->OAuthTokenSecret){
 			$TweetText = $siteConfig->TweetText;
 			if($TweetText == ''){
@@ -100,8 +101,9 @@ class TwitterController extends Controller {
 			$tweetData = array(
 				'status' => $TweetText,
 			);
-			$postResult = $conn->post('statuses/update', $tweetData);
+			$postresult = $conn->post('statuses/update', $tweetData);
 		}
+		return $postresult;
 	}
 
 }
