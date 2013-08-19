@@ -27,9 +27,8 @@ class FacebookController extends Controller {
 			
 			if(!$facebook->getUser()){
 				$login_url_params = array(
-					'scope' => 'publish_stream,read_stream,offline_access,manage_pages',         
-					'fbconnect' =>  1,         
-					'next' => Director::absoluteBaseURL().'FacebookController/callback',
+					'scope' => 'publish_stream,read_stream,manage_pages',
+					'redirect_uri' => Director::absoluteBaseURL().'FacebookController/callback',
 				);
 				$login_url = $facebook->getLoginUrl($login_url_params);
 				$this->redirect($login_url);

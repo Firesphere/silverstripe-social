@@ -79,6 +79,7 @@ Setting up your application, will give you a consumer key/secret combination. Se
 For Facebook, it requires a few extra steps, sadly.
 Here goes:
 * Create a new app at `https://developers.facebook.com`
+* Under "Select how your app integrates with Facebook" Select *Website with Facebook Login* and set the URL tp http://yoursi.te/FacebookController/callback/
 * Copy the AppID, Secret and API-key to the corresponding fields in the CMS
 * Make sure you are admin of the corresponding page you want to publish to.
 * Get the page-ID. This one is tricky, google it, because I don't have much space.
