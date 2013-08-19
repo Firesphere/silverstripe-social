@@ -22,6 +22,7 @@ class SocialSiteConfigExtension extends DataExtension {
 		'FBSecret' => 'Varchar(255)',
 		'FBPageID' => 'Varchar(255)',
 		'FBText' => 'Text',
+		'FBVerified' => "Text"
 	);
 
 
